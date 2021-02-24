@@ -9,7 +9,8 @@ const WIDTH = 7;
 const HEIGHT = 6;
 
 let currPlayer = 1; // active player: 1 or 2
-const board = []; // array of rows, each row is array of cells  (board[y][x])
+let board = []; // array of rows, each row is array of cells  (board[y][x])
+let originalHTML = document.body.innerHTML;
 
 makeBoard();
 makeHtmlBoard();
@@ -83,6 +84,14 @@ function placeInTable(y, x) {
 /* endGame: announce game end */
 function endGame(msg) {
   setTimeout(() => alert(msg), 50);
+  setTimeout(() => resetGame(), 100);
+}
+
+function resetGame() {
+  board = [];
+  makeBoard();
+  document.body.innerHTML = originalHTML;
+  makeHtmlBoard();
 }
 
 /** handleClick: handle click of column top to play piece */
