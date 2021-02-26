@@ -12,6 +12,11 @@ let currPlayer = 1; // active player: 1 or 2
 let board = []; // array of rows, each row is array of cells  (board[y][x])
 let originalHTML = document.body.innerHTML;
 
+const player = {
+  1: "blue",
+  2: "red",
+};
+
 makeBoard();
 makeHtmlBoard();
 
@@ -117,24 +122,34 @@ function handleClick(evt) {
 
   // check for tie
   // check if all cells in board are filled; if so call, call endGame
-  if (board[0].every((cell) => cell)) endGame("It's a tie!");
+
+  if (checkForTie()) endGame("It's a tie!");
 
   // switch currPlayer 1 <-> 2
-  if (currPlayer === 1) {
-    currPlayer = 2;
-  } else currPlayer = 1;
+  switchCurrPlayer();
+
   handleMouseover(evt);
 }
 
-function handleMouseover(evt) {
+function switchCurrPlayer() {
   if (currPlayer === 1) {
-    evt.target.style.backgroundColor = "blue";
-  } else evt.target.style.backgroundColor = "red";
+    currPlayer = 2;
+  } else currPlayer = 1;
+}
+
+function handleMouseover(evt) {
+  evt.target.style.backgroundColor = player[currPlayer];
 }
 
 function handleMouseout(evt) {
   evt.target.style.backgroundColor = "gray";
 }
+
+/** checkForTie: check if top row is completely filled */
+function checkForTie() {
+  return board[0].every((cell) => cell);
+}
+
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
 
 function checkForWin() {
